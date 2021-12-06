@@ -1,0 +1,14 @@
+enum TokenType {
+  STRING,
+  NUMBER,
+  ADD,
+  INCREMENT,
+  SUBTRACT,
+  DECREMENT,
+  MULTIPLY,
+  DIVIDE,
+  ASSIGN,
+  OUTPUT,
+  SET,
+  ERROR,
+}
