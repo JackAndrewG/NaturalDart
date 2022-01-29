@@ -14,11 +14,29 @@
     </properties>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.jgoodies/jgoodies-common -->
+        <dependency>
+            <groupId>com.jgoodies</groupId>
+            <artifactId>jgoodies-common</artifactId>
+            <version>1.8.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.jgoodies/jgoodies-forms -->
+        <dependency>
+            <groupId>com.jgoodies</groupId>
+            <artifactId>jgoodies-forms</artifactId>
+            <version>1.9.0</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/de.jflex/jflex -->
         <dependency>
             <groupId>de.jflex</groupId>
             <artifactId>jflex</artifactId>
             <version>1.8.2</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.squirrel-sql.thirdparty.non-maven</groupId>
+            <artifactId>java-cup</artifactId>
+            <version>11a</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

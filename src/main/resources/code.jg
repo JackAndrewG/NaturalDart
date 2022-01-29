@@ -1,7 +1,0 @@
-ENTERO a = 34;
-
-ENTERO a1 = 34;
-
-ENTERO a_1 = 34;
-
-ENTERO a1 = a2;
