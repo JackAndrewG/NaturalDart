@@ -34,7 +34,7 @@ public class Editor extends JFrame implements ActionListener {
 
         area = new JTextArea();
         area.setText("""
-                FLOTANTE sumar() {
+                FLOTANTE sumar(in = 5) {
                 	FLOTANTE a = 3.6;
                 	ENTERO   b = 5 + 1;
                 	FLOTANTE c = a * b;
@@ -50,6 +50,10 @@ public class Editor extends JFrame implements ActionListener {
                   	    SALIDA("Iguales");
                   	    a = a / 2;
                   	}
+                    
+                    MIENTRAS (ellanoteama == VERDADERO) {
+                        lagrimas = lagrimas + 1;
+                    }
                   	                  	
                 	DEVOLVER c;
                 }

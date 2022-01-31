@@ -31,6 +31,8 @@ space=[ ,\t,\r,\n]+
 (FLOTANTE)    { return new Symbol(sym.FLOAT,      (int) yychar, yyline, yytext()); } /* 2.  Tipo de Dato Flotante */
 (CADENA)      { return new Symbol(sym.STRING,     (int) yychar, yyline, yytext()); } /* 3.  Tipo de Dato Cadena de Texto */
 (VACIO)       { return new Symbol(sym.VOID,       (int) yychar, yyline, yytext()); } /* 4.  Tipo de Dato NO Retorno */
+(VERDADERO)   { return new Symbol(sym.TRUE,       (int) yychar, yyline, yytext()); } /* 4.  Tipo de Dato NO Retorno */
+(FALSO)       { return new Symbol(sym.FALSE,       (int) yychar, yyline, yytext()); } /* 4.  Tipo de Dato NO Retorno */
 
 /* ********************     BLOQUES     ******************** */
 (SALIDA)      { return new Symbol(sym.PRINT,      (int) yychar, yyline, yytext()); } /* 5.  Salida de datos */
