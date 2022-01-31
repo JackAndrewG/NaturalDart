@@ -36,6 +36,7 @@ space=[ ,\t,\r,\n]+
 (SALIDA)      { return new Symbol(sym.PRINT,      (int) yychar, yyline, yytext()); } /* 5.  Salida de datos */
 (SI)          { return new Symbol(sym.IFC,        (int) yychar, yyline, yytext()); } /* 6.  Bloque condicional */
 (SINO)        { return new Symbol(sym.ELSEC,      (int) yychar, yyline, yytext()); } /* 7.  Bloque condicional (caso contrario) */
+(MIENTRAS)        { return new Symbol(sym.WHILE,      (int) yychar, yyline, yytext()); } /* 7.  Bloque Mientras */
 (DEVOLVER)     { return new Symbol(sym.RETURNC,    (int) yychar, yyline, yytext()); } /* 8.  Retorno */
 
 /* ********************   OPERACIONES   ******************** */
