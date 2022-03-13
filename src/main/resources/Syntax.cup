@@ -1,5 +1,6 @@
 package lexer;
 import java_cup.runtime.Symbol;
+import java.util.HashMap;
 
 parser code
 {:
@@ -14,6 +15,25 @@ parser code
     }
 :};
 
+action code
+{:
+    private Integer operationType = 0;   
+    private Integer type = 0;
+    private String data_type = "";
+    public HashMap variables = new HashMap();
+    private Number operations(Number a, Number b) {
+        System.out.println(a+" ____ "+b+"  "+operationType);
+        Number result = 0;
+        switch(operationType) {
+            case 7: result = a.intValue() + b.intValue(); break;
+            default: result = null;
+        }
+        System.out.println(a+" ____ "+b+"  "+ result);
+        operationType = 0;
+        return result;
+    }
+:}
+
 terminal INTEGER, FLOAT, STRING, VOID, PRINT, IFC, ELSEC, WHILE, RETURNC, ASSIGN, ADD, SUBTRACT, MULTIPLY, DIVIDE,
 QUOTES, POPEN, PCLOSE, WOPEN, WCLOSE, EOL, COMPARATOR, NUMBER, NFLOAT, IDENTIFIER, TRUE, FALSE, ERROR;
 
@@ -27,7 +47,11 @@ BEGIN ::=
     FTYPE IDENTIFIER POPEN PARAMS PCLOSE WOPEN BLOCK RETURNC IDENTIFIER EOL WCLOSE
 ;
 
-FTYPE ::= INTEGER | FLOAT | STRING;
+FTYPE ::= 
+    INTEGER /*{: type = sym.INTEGER :} */
+    | FLOAT /*{: type = sym.FLOAT :} */
+    | STRING /*{: type = sym.STRING :} */
+    ;
 
 BLOCK ::=
     DECLARATION |
@@ -62,20 +86,37 @@ CONDITIONAL ::=
 ;
 
 OPERATIONS ::=
-    INTEGER IDENTIFIER ASSIGN NUMBER OPERATION NUMBER EOL |
+    /*entero a = 4 - 5;*/
+    INTEGER IDENTIFIER ASSIGN NUMBER:a OPERATION NUMBER:b EOL 
+    /*{: RESULT = new Integer(a.intValue() - b.intValue()); :}*/
+    |
+    /*entero a = 4 - b;*/
     INTEGER IDENTIFIER ASSIGN NUMBER OPERATION IDENTIFIER EOL |
+    /*entero a = b - 5;*/
     INTEGER IDENTIFIER ASSIGN IDENTIFIER OPERATION NUMBER EOL |
+    /*entero a = b - c;*/
     INTEGER IDENTIFIER ASSIGN IDENTIFIER OPERATION IDENTIFIER EOL |
+    /*entero a = 4 - 5;*/
     FLOAT IDENTIFIER ASSIGN NFLOAT OPERATION NFLOAT EOL |
+    /*flotante a = b - 1.0;*/
     FLOAT IDENTIFIER ASSIGN IDENTIFIER OPERATION NFLOAT EOL |
+    /*flotante a = 1.0 - b;*/
     FLOAT IDENTIFIER ASSIGN NFLOAT OPERATION IDENTIFIER EOL |
+    /*flotante a = b - c;*/
     FLOAT IDENTIFIER ASSIGN IDENTIFIER OPERATION IDENTIFIER EOL |
+    /*a = 2 - 1;*/
     IDENTIFIER ASSIGN NUMBER OPERATION NUMBER EOL |
+    /*a = b - 1;*/
     IDENTIFIER ASSIGN IDENTIFIER OPERATION NUMBER EOL |
+    /*a = 2 - b;*/
     IDENTIFIER ASSIGN NUMBER OPERATION IDENTIFIER EOL |
+    /*a = 2.0 - 1;*/
     IDENTIFIER ASSIGN NFLOAT OPERATION NFLOAT EOL |
+    /*a = b - 1.0;*/
     IDENTIFIER ASSIGN IDENTIFIER OPERATION NFLOAT EOL |
+    /*a = 2.0 - b;*/
     IDENTIFIER ASSIGN NFLOAT OPERATION IDENTIFIER EOL |
+    /*a = b - c;*/
     IDENTIFIER ASSIGN IDENTIFIER OPERATION IDENTIFIER EOL
 ;
 

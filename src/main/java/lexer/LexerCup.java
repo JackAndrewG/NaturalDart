@@ -7,8 +7,7 @@ import java_cup.runtime.Symbol;
 
 // See https://github.com/jflex-de/jflex/issues/222
 @SuppressWarnings("FallThrough")
-public
-class LexerCup implements java_cup.runtime.Scanner {
+public class LexerCup implements java_cup.runtime.Scanner {
 
   /** This character denotes the end of file. */
   public static final int YYEOF = -1;
@@ -736,7 +735,9 @@ class LexerCup implements java_cup.runtime.Scanner {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
-            { return new Symbol(sym.ERROR,      (int) yychar, yyline, yytext());
+            { SymbolTable symTable = new SymbolTable( "ERROR", yytext(), yyline+1, yycolumn+1);
+    symTable.printTable(symTable); 
+    return new Symbol(sym.ERROR,      (int) yychar, yyline, yytext());
             }
             // fall through
           case 29: break;
@@ -746,132 +747,184 @@ class LexerCup implements java_cup.runtime.Scanner {
             // fall through
           case 30: break;
           case 3:
-            { return new Symbol(sym.QUOTES,     (int) yychar, yyline, yytext());
+            { SymbolTable symTable = new SymbolTable( "QUOTES", yytext(), yyline+1, yycolumn+1);
+    symTable.printTable(symTable); 
+    return new Symbol(sym.QUOTES,     (int) yychar, yyline, yytext());
             }
             // fall through
           case 31: break;
           case 4:
-            { return new Symbol(sym.POPEN,      (int) yychar, yyline, yytext());
+            { SymbolTable symTable = new SymbolTable( "POPEN", yytext(), yyline+1, yycolumn+1);
+    symTable.printTable(symTable); 
+    return new Symbol(sym.POPEN,      (int) yychar, yyline, yytext());
             }
             // fall through
           case 32: break;
           case 5:
-            { return new Symbol(sym.PCLOSE,     (int) yychar, yyline, yytext());
+            { SymbolTable symTable = new SymbolTable( "PCLOSE", yytext(), yyline+1, yycolumn+1);
+    symTable.printTable(symTable); 
+    return new Symbol(sym.PCLOSE,     (int) yychar, yyline, yytext());
             }
             // fall through
           case 33: break;
           case 6:
-            { return new Symbol(sym.MULTIPLY,   (int) yychar, yyline, yytext());
+            { SymbolTable symTable = new SymbolTable( "MULTIPLY", yytext(), yyline+1, yycolumn+1);
+    symTable.printTable(symTable); 
+    return new Symbol(sym.MULTIPLY,   (int) yychar, yyline, yytext());
             }
             // fall through
           case 34: break;
           case 7:
-            { return new Symbol(sym.ADD,        (int) yychar, yyline, yytext());
+            { SymbolTable symTable = new SymbolTable( "ADD", yytext(), yyline+1, yycolumn+1);
+    symTable.printTable(symTable); 
+    return new Symbol(sym.ADD,        (int) yychar, yyline, yytext());
             }
             // fall through
           case 35: break;
           case 8:
-            { return new Symbol(sym.SUBTRACT,   (int) yychar, yyline, yytext());
+            { SymbolTable symTable = new SymbolTable( "SUBTRACT", yytext(), yyline+1, yycolumn+1);
+    symTable.printTable(symTable); 
+    return new Symbol(sym.SUBTRACT,   (int) yychar, yyline, yytext());
             }
             // fall through
           case 36: break;
           case 9:
-            { return new Symbol(sym.DIVIDE,     (int) yychar, yyline, yytext());
+            { SymbolTable symTable = new SymbolTable( "DIVIDE", yytext(), yyline+1, yycolumn+1);
+    symTable.printTable(symTable); 
+    return new Symbol(sym.DIVIDE,     (int) yychar, yyline, yytext());
             }
             // fall through
           case 37: break;
           case 10:
-            { return new Symbol(sym.NUMBER,     (int) yychar, yyline, yytext());
+            { SymbolTable symTable = new SymbolTable( "NUMBER", yytext(), yyline+1, yycolumn+1);
+    symTable.printTable(symTable); 
+    return new Symbol(sym.NUMBER,     (int) yychar, yyline, yytext());
             }
             // fall through
           case 38: break;
           case 11:
-            { return new Symbol(sym.EOL,        (int) yychar, yyline, yytext());
+            { SymbolTable symTable = new SymbolTable( "EOL", yytext(), yyline+1, yycolumn+1);
+    symTable.printTable(symTable); 
+    return new Symbol(sym.EOL,        (int) yychar, yyline, yytext());
             }
             // fall through
           case 39: break;
           case 12:
-            { return new Symbol(sym.COMPARATOR, (int) yychar, yyline, yytext());
+            { SymbolTable symTable = new SymbolTable( "COMPARATOR", yytext(), yyline+1, yycolumn+1);
+    symTable.printTable(symTable); 
+    return new Symbol(sym.COMPARATOR, (int) yychar, yyline, yytext());
             }
             // fall through
           case 40: break;
           case 13:
-            { return new Symbol(sym.ASSIGN,     (int) yychar, yyline, yytext());
+            { SymbolTable symTable = new SymbolTable( "ASSIGN", yytext(), yyline+1, yycolumn+1);
+    symTable.printTable(symTable); 
+    return new Symbol(sym.ASSIGN,     (int) yychar, yyline, yytext());
             }
             // fall through
           case 41: break;
           case 14:
-            { return new Symbol(sym.IDENTIFIER, (int) yychar, yyline, yytext());
+            { SymbolTable symTable = new SymbolTable( "IDENTIFIER", yytext(), yyline+1, yycolumn+1);
+    symTable.printTable(symTable); 
+    return new Symbol(sym.IDENTIFIER, (int) yychar, yyline, yytext());
             }
             // fall through
           case 42: break;
           case 15:
-            { return new Symbol(sym.WOPEN,      (int) yychar, yyline, yytext());
+            { SymbolTable symTable = new SymbolTable( "WOPEN", yytext(), yyline+1, yycolumn+1);
+    symTable.printTable(symTable); 
+    return new Symbol(sym.WOPEN,      (int) yychar, yyline, yytext());
             }
             // fall through
           case 43: break;
           case 16:
-            { return new Symbol(sym.WCLOSE,     (int) yychar, yyline, yytext());
+            { SymbolTable symTable = new SymbolTable( "WCLOSE", yytext(), yyline+1, yycolumn+1);
+    symTable.printTable(symTable); 
+    return new Symbol(sym.WCLOSE,     (int) yychar, yyline, yytext());
             }
             // fall through
           case 44: break;
           case 17:
-            { return new Symbol(sym.IFC,        (int) yychar, yyline, yytext());
+            { SymbolTable symTable = new SymbolTable( "IFC", yytext(), yyline+1, yycolumn+1);
+    symTable.printTable(symTable); 
+    return new Symbol(sym.IFC,        (int) yychar, yyline, yytext());
             }
             // fall through
           case 45: break;
           case 18:
-            { return new Symbol(sym.NFLOAT,     (int) yychar, yyline, yytext());
+            { SymbolTable symTable = new SymbolTable( "NFLOAT", yytext(), yyline+1, yycolumn+1);
+    symTable.printTable(symTable); 
+    return new Symbol(sym.NFLOAT,     (int) yychar, yyline, yytext());
             }
             // fall through
           case 46: break;
           case 19:
-            { return new Symbol(sym.ELSEC,      (int) yychar, yyline, yytext());
+            { SymbolTable symTable = new SymbolTable( "ELSEC", yytext(), yyline+1, yycolumn+1);
+    symTable.printTable(symTable); 
+    return new Symbol(sym.ELSEC,      (int) yychar, yyline, yytext());
             }
             // fall through
           case 47: break;
           case 20:
-            { return new Symbol(sym.FALSE,       (int) yychar, yyline, yytext());
+            { SymbolTable symTable = new SymbolTable( "FALSE", yytext(), yyline+1, yycolumn+1);
+    symTable.printTable(symTable); 
+    return new Symbol(sym.FALSE,       (int) yychar, yyline, yytext());
             }
             // fall through
           case 48: break;
           case 21:
-            { return new Symbol(sym.VOID,       (int) yychar, yyline, yytext());
+            { SymbolTable symTable = new SymbolTable( "VOID", yytext(), yyline+1, yycolumn+1);
+    symTable.printTable(symTable); 
+    return new Symbol(sym.VOID,       (int) yychar, yyline, yytext());
             }
             // fall through
           case 49: break;
           case 22:
-            { return new Symbol(sym.STRING,     (int) yychar, yyline, yytext());
+            { SymbolTable symTable = new SymbolTable( "STRING", yytext(), yyline+1, yycolumn+1);
+    symTable.printTable(symTable); 
+    return new Symbol(sym.STRING,     (int) yychar, yyline, yytext());
             }
             // fall through
           case 50: break;
           case 23:
-            { return new Symbol(sym.INTEGER,    (int) yychar, yyline, yytext());
+            { SymbolTable symTable = new SymbolTable( "INTEGER", yytext(), yyline+1, yycolumn+1);
+    symTable.printTable(symTable); 
+    return new Symbol( sym.INTEGER, (int) yychar, yyline, yytext());
             }
             // fall through
           case 51: break;
           case 24:
-            { return new Symbol(sym.PRINT,      (int) yychar, yyline, yytext());
+            { SymbolTable symTable = new SymbolTable( "PRINT", yytext(), yyline+1, yycolumn+1);
+    symTable.printTable(symTable); 
+    return new Symbol(sym.PRINT,      (int) yychar, yyline, yytext());
             }
             // fall through
           case 52: break;
           case 25:
-            { return new Symbol(sym.RETURNC,    (int) yychar, yyline, yytext());
+            { SymbolTable symTable = new SymbolTable( "RETURNC", yytext(), yyline+1, yycolumn+1);
+    symTable.printTable(symTable); 
+    return new Symbol(sym.RETURNC,    (int) yychar, yyline, yytext());
             }
             // fall through
           case 53: break;
           case 26:
-            { return new Symbol(sym.FLOAT,      (int) yychar, yyline, yytext());
+            { SymbolTable symTable = new SymbolTable( "FLOAT", yytext(), yyline+1, yycolumn+1);
+    symTable.printTable(symTable); 
+    return new Symbol(sym.FLOAT,      (int) yychar, yyline, yytext());
             }
             // fall through
           case 54: break;
           case 27:
-            { return new Symbol(sym.WHILE,      (int) yychar, yyline, yytext());
+            { SymbolTable symTable = new SymbolTable( "WHILE", yytext(), yyline+1, yycolumn+1);
+    symTable.printTable(symTable); 
+    return new Symbol(sym.WHILE,  (int) yychar, yyline, yytext());
             }
             // fall through
           case 55: break;
           case 28:
-            { return new Symbol(sym.TRUE,       (int) yychar, yyline, yytext());
+            { SymbolTable symTable = new SymbolTable( "TRUE", yytext(), yyline+1, yycolumn+1);
+    symTable.printTable(symTable); 
+    return new Symbol(sym.TRUE,       (int) yychar, yyline, yytext());
             }
             // fall through
           case 56: break;
