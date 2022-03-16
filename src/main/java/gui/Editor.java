@@ -21,42 +21,23 @@ public class Editor extends JFrame implements ActionListener {
     private static JFrame frame;
     private static int returnValue = 0;
 
-    public Editor() { run(); }
+    public Editor() {
+        run();
+    }
 
     public void run() {
         frame = new JFrame("Compilador");
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+                | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         area = new JTextArea();
         area.setText("""
-                FLOTANTE sumar(in = 5) {
-                	FLOTANTE a = 3.6;
-                	ENTERO   b = 5 + 1;
-                	FLOTANTE c = a * b;
-                	
-                	SI(a >= b) {
-                	    SALIDA(a);
-                	} SINO {
-                  		SALIDA("Contrario");
-                  		b = b - 1;
-                  	}
-                  	
-                  	SI(b == 6) {
-                  	    SALIDA("Iguales");
-                  	    a = a / 2;
-                  	}
-                    
-                    MIENTRAS (ellanoteama == VERDADERO) {
-                        lagrimas = lagrimas + 1;
-                    }
-                  	                  	
-                	DEVOLVER c;
-                }
+                5 - 1;
                 """);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(area);
@@ -144,7 +125,8 @@ public class Editor extends JFrame implements ActionListener {
                     showMessageDialog(null, "Sintaxis correcta.");
                 } catch (Exception ex) {
                     Symbol sym = s.getS();
-                    showMessageDialog(null, "¡Sintaxis incorrecta! \n" + "Error de Sintaxis. Línea " + (sym.right + 1) + " columna " + (sym.left + 1) + " Texto " + sym.value);
+                    showMessageDialog(null, "¡Sintaxis incorrecta! \n" + "Error de Sintaxis. Línea " + (sym.right + 1)
+                            + " columna " + (sym.left + 1) + " Texto " + sym.value);
                 }
             }
             case "Salir" -> System.exit(0);

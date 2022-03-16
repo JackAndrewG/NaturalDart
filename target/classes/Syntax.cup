@@ -37,9 +37,9 @@ action code
 terminal INTEGER, FLOAT, STRING, VOID, PRINT, IFC, ELSEC, WHILE, RETURNC, ASSIGN, ADD, SUBTRACT, MULTIPLY, DIVIDE,
 QUOTES, POPEN, PCLOSE, WOPEN, WCLOSE, EOL, COMPARATOR, NUMBER, NFLOAT, IDENTIFIER, TRUE, FALSE, ERROR;
 
-non terminal FTYPE, BEGIN, BLOCK, DECLARATION, TEXT, PRINTOUT, CONDITIONAL, CONDITION, OPERATIONS, OPERATION, PARAMS;
+non terminal FTYPE, BEGIN, BLOCK, DECLARATION, TEXT, PRINTOUT, CONDITIONAL, CONDITION, OPERATIONS, OPERATION, PARAMS, SUBTRACTOP;
 
-start with BEGIN;
+start with SUBTRACTOP;
 BEGIN ::=
     VOID IDENTIFIER POPEN PCLOSE WOPEN BLOCK WCLOSE |
     VOID IDENTIFIER POPEN PARAMS PCLOSE WOPEN BLOCK WCLOSE |
@@ -48,9 +48,9 @@ BEGIN ::=
 ;
 
 FTYPE ::= 
-    INTEGER /*{: type = sym.INTEGER :} */
-    | FLOAT /*{: type = sym.FLOAT :} */
-    | STRING /*{: type = sym.STRING :} */
+    INTEGER  {: type = sym.INTEGER; :}
+    | FLOAT  {: type = sym.FLOAT; :}
+    | STRING {: type = sym.STRING; :}
     ;
 
 BLOCK ::=
@@ -87,9 +87,7 @@ CONDITIONAL ::=
 
 OPERATIONS ::=
     /*entero a = 4 - 5;*/
-    INTEGER IDENTIFIER ASSIGN NUMBER:a OPERATION NUMBER:b EOL 
-    /*{: RESULT = new Integer(a.intValue() - b.intValue()); :}*/
-    |
+    INTEGER IDENTIFIER ASSIGN NUMBER:a OPERATION NUMBER:b EOL |
     /*entero a = 4 - b;*/
     INTEGER IDENTIFIER ASSIGN NUMBER OPERATION IDENTIFIER EOL |
     /*entero a = b - 5;*/
@@ -140,4 +138,12 @@ PARAMS ::=
     IDENTIFIER ASSIGN NUMBER |
     IDENTIFIER ASSIGN NFLOAT |
     IDENTIFIER ASSIGN QUOTES TEXT QUOTES
+;
+
+SUBTRACTOP ::= 
+    NUMBER:a SUBTRACT NUMBER:b EOL
+    {: 
+        /*RESULT =  ((Integer) a).intValue() - ((Integer) b).intValue();*/
+        System.out.println(a+"____"+b);
+    :}
 ;

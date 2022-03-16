@@ -4,26 +4,26 @@ package lexer;
 // import java.util.List;
 
 public class SymbolTable {
-    public String type;
     public String rule;
+    public String identifier;
     public Integer line;
     public Integer column;
 
     public SymbolTable(
             String type,
-            String rule,
+            String identifier,
             Integer line,
             Integer column) {
-        this.type = type;
-        this.rule = rule;
+        this.rule = type;
+        this.identifier = identifier;
         this.line = line;
         this.column = column;
     }
 
     public static void printTable(SymbolTable symbolTable) {
         System.out.println(
-                "Descripción: " + symbolTable.type +
-                        "\tRegla: " + symbolTable.rule +
+                "Regla: " + symbolTable.rule +
+                        "\tIdentificador: " + symbolTable.identifier +
                         "\tLínea: " + symbolTable.line.toString() +
                         "\tColumna: " + symbolTable.column.toString());
     }
