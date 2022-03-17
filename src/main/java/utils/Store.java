@@ -36,4 +36,16 @@ public class Store {
         }
         return aux;
     }
+
+    public static boolean isNumberType(String type) {
+        return type.equals("FLOAT") || type.equals("ENTERO");
+    }
+
+    public static HashMap<String, Variable> updateValue(HashMap<String, Variable> vars, Object data, String id) {
+        Variable aux = vars.get(id);
+        aux.setValue(data);
+        vars.put(id, aux);
+
+        return vars;
+    }
 }

@@ -62,9 +62,12 @@ public class Generator {
 
      private static void testLexer() {
          String text = """
-             ENTERO b = 5;
-             FLOTANTE c = 5.2;
-             ENTERO a = 4;
+             VACIO main() {
+                 ENTERO b;
+                 FLOTANTE c = 5.2;
+                 ENTERO a = 4;
+                 FLOTANTE a = 5.2;
+             }
          """;
          Syntax s = new Syntax(new LexerCup(new StringReader(text)));
 
