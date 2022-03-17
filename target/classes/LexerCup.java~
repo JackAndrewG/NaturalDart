@@ -889,7 +889,7 @@ public class LexerCup implements java_cup.runtime.Scanner {
           case 23:
             { SymbolTable symTable = new SymbolTable( "INTEGER", yytext(), yyline+1, yycolumn+1);
     SymbolTable.printTable(symTable); 
-    return new Symbol(sym.INTEGER, (int) yychar, yyline, yytext());
+    return new Symbol( sym.INTEGER, (int) yychar, yyline, yytext());
             }
             // fall through
           case 51: break;

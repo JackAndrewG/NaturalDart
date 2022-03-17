@@ -15,8 +15,8 @@ public class Generator {
     private static final URL SYN = Generator.class.getResource("../Syntax.cup");
 
     public static void main(String[] args) {
-        generateFiles();
-        // testLexer();
+//        generateFiles();
+        testLexer();
     }
 
     private static void generateFiles() {
@@ -39,6 +39,7 @@ public class Generator {
 
             deletePath(sym);
             deletePath(syn);
+            deletePath(lex);
 
             Files.move(Paths.get(System.getProperty("user.dir") + File.separatorChar + "sym.java"), sym);
             Files.move(Paths.get(System.getProperty("user.dir") + File.separatorChar + "Syntax.java"), syn);
@@ -59,37 +60,20 @@ public class Generator {
         }
     }
 
-    // private static void testLexer() {
-    // String text = """
-    // FLOTANTE sumar() {
-    // FLOTANTE a = 3.6;
-    // ENTERO b = 5 + 1;
-    // FLOTANTE c = a * b;
+     private static void testLexer() {
+         String text = """
+             ENTERO b = 5;
+             FLOTANTE c = 5.2;
+             ENTERO a = 4;
+         """;
+         Syntax s = new Syntax(new LexerCup(new StringReader(text)));
 
-    // SI(a >= b) {
-    // SALIDA(a);
-    // } SINO {
-    // SALIDA("Contrario");
-    // b = b - 1;
-    // }
-
-    // SI(b == 6) {
-    // SALIDA("Iguales");
-    // a = a / 2;
-    // }
-
-    // DEVOLVER c;
-    // }
-    // """;
-    // Syntax s = new Syntax(new LexerCup(new StringReader(text)));
-
-    // try {
-    // s.parse();
-    // } catch (Exception e) {
-    // Symbol sym = s.getS();
-    // System.out.println("Error de Sintaxis. Línea " + (sym.right + 1) + " columna
-    // " + (sym.left + 1) + " Texto " + sym.value);
-    // }
-    // }
+         try {
+            s.parse();
+         } catch (Exception e) {
+             Symbol sym = s.getS();
+             System.out.println("Error de Sintaxis. Línea " + (sym.right + 1) + " columna " + (sym.left + 1) + " Texto " + sym.value);
+         }
+     }
 
 }

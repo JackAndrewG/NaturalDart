@@ -1,6 +1,7 @@
 package lexer;
 import java_cup.runtime.Symbol;
 import java.util.HashMap;
+import utils.Store;
 
 parser code
 {:
@@ -39,7 +40,8 @@ QUOTES, POPEN, PCLOSE, WOPEN, WCLOSE, EOL, COMPARATOR, NUMBER, NFLOAT, IDENTIFIE
 
 non terminal FTYPE, BEGIN, BLOCK, DECLARATION, TEXT, PRINTOUT, CONDITIONAL, CONDITION, OPERATIONS, OPERATION, PARAMS, SUBTRACTOP;
 
-start with SUBTRACTOP;
+start with BLOCK;
+
 BEGIN ::=
     VOID IDENTIFIER POPEN PCLOSE WOPEN BLOCK WCLOSE |
     VOID IDENTIFIER POPEN PARAMS PCLOSE WOPEN BLOCK WCLOSE |
@@ -51,25 +53,38 @@ FTYPE ::=
     INTEGER  {: type = sym.INTEGER; :}
     | FLOAT  {: type = sym.FLOAT; :}
     | STRING {: type = sym.STRING; :}
-    ;
+;
 
 BLOCK ::=
     DECLARATION |
-    BLOCK DECLARATION |
-    CONDITIONAL |
-    BLOCK CONDITIONAL |
-    OPERATIONS |
-    BLOCK OPERATIONS
+    BLOCK DECLARATION
+//    CONDITIONAL |
+//    BLOCK CONDITIONAL |
+//    OPERATIONS |
+//    BLOCK OPERATIONS |
+//    PRINTOUT |
+//    BLOCK PRINTOUT
 ;
 
 DECLARATION ::=
-    INTEGER IDENTIFIER EOL |
-    FLOAT IDENTIFIER EOL |
-    STRING IDENTIFIER EOL |
-    INTEGER IDENTIFIER ASSIGN NUMBER EOL |
-    FLOAT IDENTIFIER ASSIGN NFLOAT EOL |
-    STRING IDENTIFIER ASSIGN QUOTES TEXT QUOTES EOL |
-    PRINTOUT
+    INTEGER:type IDENTIFIER:id EOL {:
+        variables = Store.addVar(type.toString(), variables, id.toString(), null);
+    :} |
+    FLOAT:type IDENTIFIER:id EOL {:
+        variables = Store.addVar(type.toString(), variables, id.toString(), null);
+    :} |
+    STRING:type IDENTIFIER:id EOL {:
+        variables = Store.addVar(type.toString(), variables, id.toString(), null);
+    :} |
+    INTEGER:type IDENTIFIER:id ASSIGN NUMBER:value EOL {:
+        variables = Store.addVar(type.toString(), variables, id.toString(), value.toString());
+    :} |
+    FLOAT:type IDENTIFIER:id ASSIGN NFLOAT:value EOL {:
+        variables = Store.addVar(type.toString(), variables, id.toString(), value.toString());
+    :} |
+    STRING:type IDENTIFIER:id ASSIGN QUOTES TEXT:value QUOTES EOL {:
+        variables = Store.addVar(type.toString(), variables, id.toString(), value.toString());
+    :}
 ;
 
 PRINTOUT ::=
@@ -141,9 +156,8 @@ PARAMS ::=
 ;
 
 SUBTRACTOP ::= 
-    NUMBER:a SUBTRACT NUMBER:b EOL
-    {: 
-        /*RESULT =  ((Integer) a).intValue() - ((Integer) b).intValue();*/
+    NUMBER:a OPERATION:op NUMBER:b EOL {:
+      /*RESULT =  ((Integer) a).intValue() - ((Integer) b).intValue();*/
         System.out.println(a+"____"+b);
     :}
 ;

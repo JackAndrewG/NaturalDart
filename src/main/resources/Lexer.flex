@@ -32,7 +32,7 @@ space=[ ,\t,\r,\n]+
 { 
     SymbolTable symTable = new SymbolTable( "INTEGER", yytext(), yyline+1, yycolumn+1);
     SymbolTable.printTable(symTable); 
-    return new Symbol( sym.INTEGER, (int) yychar, yyline, yytext()); 
+    return new Symbol(sym.INTEGER, (int) yychar, yyline, yytext());
 } /* 1.  Tipo de Dato Entero */
 (FLOTANTE)    { 
     SymbolTable symTable = new SymbolTable( "FLOAT", yytext(), yyline+1, yycolumn+1);

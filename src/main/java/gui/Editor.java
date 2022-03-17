@@ -2,7 +2,7 @@ package gui;
 
 import java_cup.runtime.Symbol;
 import lexer.LexerCup;
-import lexer.Syntax;
+//import lexer.Syntax;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
@@ -119,14 +119,14 @@ public class Editor extends JFrame implements ActionListener {
             }
             case "Nuevo" -> area.setText("");
             case "Comprobar sintaxis" -> {
-                Syntax s = new Syntax(new LexerCup(new StringReader(area.getText())));
+//                Syntax s = new Syntax(new LexerCup(new StringReader(area.getText())));
                 try {
-                    s.parse();
-                    showMessageDialog(null, "Sintaxis correcta.");
+//                    s.parse();
+//                    showMessageDialog(null, "Sintaxis correcta.");
                 } catch (Exception ex) {
-                    Symbol sym = s.getS();
-                    showMessageDialog(null, "¡Sintaxis incorrecta! \n" + "Error de Sintaxis. Línea " + (sym.right + 1)
-                            + " columna " + (sym.left + 1) + " Texto " + sym.value);
+//                    Symbol sym = s.getS();
+//                    showMessageDialog(null, "¡Sintaxis incorrecta! \n" + "Error de Sintaxis. Línea " + (sym.right + 1)
+//                            + " columna " + (sym.left + 1) + " Texto " + sym.value);
                 }
             }
             case "Salir" -> System.exit(0);
