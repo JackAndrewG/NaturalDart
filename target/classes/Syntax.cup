@@ -2,6 +2,8 @@ package lexer;
 import java_cup.runtime.Symbol;
 import java.util.HashMap;
 import utils.Store;
+import utils.Operations;
+import errors.NonExistentVariableException;
 
 parser code
 {:
@@ -22,17 +24,6 @@ action code
     private Integer type = 0;
     private String data_type = "";
     public HashMap variables = new HashMap();
-    private Number operations(Number a, Number b) {
-        System.out.println(a+" ____ "+b+"  "+operationType);
-        Number result = 0;
-        switch(operationType) {
-            case 7: result = a.intValue() + b.intValue(); break;
-            default: result = null;
-        }
-        System.out.println(a+" ____ "+b+"  "+ result);
-        operationType = 0;
-        return result;
-    }
 :}
 
 terminal INTEGER, FLOAT, STRING, VOID, PRINT, IFC, ELSEC, WHILE, RETURNC, ASSIGN, ADD, SUBTRACT, MULTIPLY, DIVIDE,
@@ -102,7 +93,17 @@ CONDITIONAL ::=
 
 OPERATIONS ::=
     /*entero a = 4 - 5;*/
-    INTEGER IDENTIFIER ASSIGN NUMBER:a OPERATION NUMBER:b EOL |
+    INTEGER:type IDENTIFIER:id ASSIGN NUMBER:a OPERATION:op NUMBER:b EOL {:
+        operationType = Operations.getOpType(op.toString());
+        variables = Store.addVar(type.toString(), variables, id.toString(), null);
+
+        Integer a1 = Integer.parseInt(a.toString());
+        Integer a2 = Integer.parseInt(b.toString());
+
+        RESULT = Operations.execute(variables, operationType, a1, a2, id.toString());
+
+        Store.updateValue(variables, RESULT, id.toString());
+    :} |
     /*entero a = 4 - b;*/
     INTEGER IDENTIFIER ASSIGN NUMBER OPERATION IDENTIFIER EOL |
     /*entero a = b - 5;*/

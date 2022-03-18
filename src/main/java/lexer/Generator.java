@@ -66,7 +66,6 @@ public class Generator {
                  ENTERO b;
                  FLOTANTE c = 5.2;
                  ENTERO a = 4;
-                 FLOTANTE a = 5.2;
              }
          """;
          Syntax s = new Syntax(new LexerCup(new StringReader(text)));

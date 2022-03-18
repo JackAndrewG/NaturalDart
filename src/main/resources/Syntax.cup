@@ -24,17 +24,6 @@ action code
     private Integer type = 0;
     private String data_type = "";
     public HashMap variables = new HashMap();
-    private Number operations(Number a, Number b) {
-        System.out.println(a+" ____ "+b+"  "+operationType);
-        Number result = 0;
-        switch(operationType) {
-            case 7: result = a.intValue() + b.intValue(); break;
-            default: result = null;
-        }
-        System.out.println(a+" ____ "+b+"  "+ result);
-        operationType = 0;
-        return result;
-    }
 :}
 
 terminal INTEGER, FLOAT, STRING, VOID, PRINT, IFC, ELSEC, WHILE, RETURNC, ASSIGN, ADD, SUBTRACT, MULTIPLY, DIVIDE,
@@ -105,20 +94,22 @@ CONDITIONAL ::=
 OPERATIONS ::=
     /*entero a = 4 - 5;*/
     INTEGER:type IDENTIFIER:id ASSIGN NUMBER:a OPERATION:op NUMBER:b EOL {:
-        operationType = sym.ADD;
-        if(Store.checkExistence(variables, id.toString())) {
-            Integer a1 = Integer.parseInt(a.toString());
-            Integer a2 = Integer.parseInt(b.toString());
+        operationType = Operations.getOpType(op.toString());
+        variables = Store.addVar(type.toString(), variables, id.toString(), null);
 
-            RESULT = Operations.execute(variables, operationType, a1, a2, id.toString());
+        Integer a1 = Integer.parseInt(a.toString());
+        Integer a2 = Integer.parseInt(b.toString());
 
-            Store.updateValue(variables, RESULT, id.toString());
-        } else {
-            throw new NonExistentVariableException("The variable(s) have not been declared!");
-        }
+        RESULT = Operations.execute(variables, operationType, a1, a2, id.toString());
+
+        Store.updateValue(variables, RESULT, id.toString());
     :} |
     /*entero a = 4 - b;*/
-    INTEGER IDENTIFIER ASSIGN NUMBER OPERATION IDENTIFIER EOL |
+    INTEGER:type IDENTIFIER:id ASSIGN NUMBER:a OPERATION:op IDENTIFIER:b EOL {:
+        operationType = Operations.getOpType(op.toString());
+        variables = Store.addVar(type.toString(), variables, id.toString(), null);
+        
+    :} |
     /*entero a = b - 5;*/
     INTEGER IDENTIFIER ASSIGN IDENTIFIER OPERATION NUMBER EOL |
     /*entero a = b - c;*/
