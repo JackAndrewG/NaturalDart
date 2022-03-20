@@ -13,6 +13,7 @@ D=[+|-]?[0-9]+
 F=[+|-]?[0-9]+([.][0-9]+)+
 C=[<>]+(=)?
 space=[ ,\t,\r,\n]+
+T=[!\"#\$%&\'\*\+\,\-\.\/:<=>\?@\[\]\\\^_\`{}]+
 
 %{
     private Symbol symbol (int type, Object value) {
@@ -156,6 +157,14 @@ space=[ ,\t,\r,\n]+
     SymbolTable.printTable(symTable); 
     return new Symbol(sym.IDENTIFIER, (int) yychar, yyline, yytext()); } /* 25. Variables */
 
+{D}({L}|{D})* {
+    SymbolTable symTable = new SymbolTable( "TEXT", yytext(), yyline+1, yycolumn+1);
+    SymbolTable.printTable(symTable);
+    return new Symbol(sym.TEXT, (int) yychar, yyline, yytext()); } /* 25. Variables */
+{T} {
+       SymbolTable symTable = new SymbolTable( "TEXT", yytext(), yyline+1, yycolumn+1);
+       SymbolTable.printTable(symTable);
+       return new Symbol(sym.TEXT, (int) yychar, yyline, yytext()); } /* 25. Variables */
 /* ********************      ERROR      ******************** */
 .             { 
     SymbolTable symTable = new SymbolTable( "ERROR", yytext(), yyline+1, yycolumn+1);

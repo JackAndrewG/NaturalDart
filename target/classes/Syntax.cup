@@ -3,7 +3,7 @@ import java_cup.runtime.Symbol;
 import java.util.HashMap;
 import utils.Store;
 import utils.Operations;
-import errors.NonExistentVariableException;
+import model.Variable;
 
 parser code
 {:
@@ -27,9 +27,9 @@ action code
 :}
 
 terminal INTEGER, FLOAT, STRING, VOID, PRINT, IFC, ELSEC, WHILE, RETURNC, ASSIGN, ADD, SUBTRACT, MULTIPLY, DIVIDE,
-QUOTES, POPEN, PCLOSE, WOPEN, WCLOSE, EOL, COMPARATOR, NUMBER, NFLOAT, IDENTIFIER, TRUE, FALSE, ERROR;
+QUOTES, POPEN, PCLOSE, WOPEN, WCLOSE, EOL, COMPARATOR, NUMBER, NFLOAT, IDENTIFIER, TRUE, FALSE, ERROR, TEXT;
 
-non terminal FTYPE, BEGIN, BLOCK, DECLARATION, TEXT, PRINTOUT, CONDITIONAL, CONDITION, OPERATIONS, OPERATION, PARAMS, SUBTRACTOP;
+non terminal FTYPE, BEGIN, BLOCK, DECLARATION, BTEXT, PRINTOUT, CONDITIONAL, CONDITION, OPERATIONS, OPERATION, PARAMS, SUBTRACTOP;
 
 start with BEGIN;
 
@@ -73,16 +73,25 @@ DECLARATION ::=
     FLOAT:type IDENTIFIER:id ASSIGN NFLOAT:value EOL {:
         variables = Store.addVar(type.toString(), variables, id.toString(), value.toString());
     :} |
-    STRING:type IDENTIFIER:id ASSIGN QUOTES TEXT:value QUOTES EOL {:
+    STRING:type IDENTIFIER:id ASSIGN QUOTES BTEXT:value QUOTES EOL {:
         variables = Store.addVar(type.toString(), variables, id.toString(), value.toString());
     :}
 ;
 
 PRINTOUT ::=
-    PRINT POPEN QUOTES TEXT QUOTES PCLOSE EOL |
-    PRINT POPEN NUMBER PCLOSE EOL |
-    PRINT POPEN NFLOAT PCLOSE EOL |
-    PRINT POPEN IDENTIFIER PCLOSE EOL
+    PRINT POPEN QUOTES BTEXT:out QUOTES PCLOSE EOL {:
+        System.out.println(out.toString());
+    :} |
+    PRINT POPEN NUMBER:out PCLOSE EOL {:
+        System.out.println(out.toString());
+    :} |
+    PRINT POPEN NFLOAT:out PCLOSE EOL {:
+        System.out.println(out.toString());
+    :} |
+    PRINT POPEN IDENTIFIER:id PCLOSE EOL {:
+        Variable out = Store.getVar(id.toString(), variables);
+        System.out.println(out.getValue());
+    :}
 ;
 
 CONDITIONAL ::=
@@ -92,49 +101,131 @@ CONDITIONAL ::=
 ;
 
 OPERATIONS ::=
-    /*entero a = 4 - 5;*/
     INTEGER:type IDENTIFIER:id ASSIGN NUMBER:a OPERATION:op NUMBER:b EOL {:
-        operationType = Operations.getOpType(op.toString());
-        variables = Store.addVar(type.toString(), variables, id.toString(), null);
-
         Integer a1 = Integer.parseInt(a.toString());
-        Integer a2 = Integer.parseInt(b.toString());
+        Integer b1 = Integer.parseInt(b.toString());
 
-        RESULT = Operations.execute(variables, operationType, a1, a2, id.toString());
-
-        Store.updateValue(variables, RESULT, id.toString());
+        RESULT = Store.castValue(type.toString(), Operations.execute(op.toString(), a1, b1, type.toString()));
+        variables = Store.addVar(type.toString(), variables, id.toString(), RESULT.toString());
     :} |
-    /*entero a = 4 - b;*/
-    INTEGER IDENTIFIER ASSIGN NUMBER OPERATION IDENTIFIER EOL |
-    /*entero a = b - 5;*/
-    INTEGER IDENTIFIER ASSIGN IDENTIFIER OPERATION NUMBER EOL |
-    /*entero a = b - c;*/
-    INTEGER IDENTIFIER ASSIGN IDENTIFIER OPERATION IDENTIFIER EOL |
-    /*entero a = 4 - 5;*/
-    FLOAT IDENTIFIER ASSIGN NFLOAT OPERATION NFLOAT EOL |
-    /*flotante a = b - 1.0;*/
-    FLOAT IDENTIFIER ASSIGN IDENTIFIER OPERATION NFLOAT EOL |
-    /*flotante a = 1.0 - b;*/
-    FLOAT IDENTIFIER ASSIGN NFLOAT OPERATION IDENTIFIER EOL |
-    /*flotante a = b - c;*/
-    FLOAT IDENTIFIER ASSIGN IDENTIFIER OPERATION IDENTIFIER EOL |
-    /*a = 2 - 1;*/
-    IDENTIFIER ASSIGN NUMBER OPERATION NUMBER EOL |
-    /*a = b - 1;*/
-    IDENTIFIER ASSIGN IDENTIFIER OPERATION NUMBER EOL |
-    /*a = 2 - b;*/
-    IDENTIFIER ASSIGN NUMBER OPERATION IDENTIFIER EOL |
-    /*a = 2.0 - 1;*/
-    IDENTIFIER ASSIGN NFLOAT OPERATION NFLOAT EOL |
-    /*a = b - 1.0;*/
-    IDENTIFIER ASSIGN IDENTIFIER OPERATION NFLOAT EOL |
-    /*a = 2.0 - b;*/
-    IDENTIFIER ASSIGN NFLOAT OPERATION IDENTIFIER EOL |
-    /*a = b - c;*/
-    IDENTIFIER ASSIGN IDENTIFIER OPERATION IDENTIFIER EOL
+    INTEGER:type IDENTIFIER:id ASSIGN NUMBER:a OPERATION:op IDENTIFIER:b EOL {:
+        Integer a1 = Integer.parseInt(a.toString());
+        Variable b1 = Store.getVar(b.toString(), variables);
+
+        RESULT = Store.castValue(type.toString(), Operations.execute(op.toString(), a1, (Integer) b1.getValue(), type.toString()));
+        variables = Store.addVar(type.toString(), variables, id.toString(), RESULT.toString());
+    :} |
+    INTEGER:type IDENTIFIER:id ASSIGN IDENTIFIER:a OPERATION:op NUMBER:b EOL {:
+        Variable a1 = Store.getVar(a.toString(), variables);
+        Integer b1 = Integer.parseInt(b.toString());
+
+        RESULT = Store.castValue(type.toString(), Operations.execute(op.toString(), (Integer) a1.getValue(), b1, type.toString()));
+        variables = Store.addVar(type.toString(), variables, id.toString(), RESULT.toString());
+    :} |
+    INTEGER:type IDENTIFIER:id ASSIGN IDENTIFIER:a OPERATION:op IDENTIFIER:b EOL {:
+        RESULT = Store.castValue(type.toString(), Operations.execute(variables, op.toString(), a.toString(), b.toString()));
+        variables = Store.addVar(type.toString(), variables, id.toString(), RESULT.toString());
+    :} |
+    FLOAT:type IDENTIFIER:id ASSIGN NFLOAT:a OPERATION:op NFLOAT:b EOL {:
+        Float a1 = Float.parseFloat(a.toString());
+        Float b1 = Float.parseFloat(b.toString());
+
+        RESULT = Store.castValue(type.toString(), Operations.execute(op.toString(), a1, b1, type.toString()));
+        variables = Store.addVar(type.toString(), variables, id.toString(), RESULT.toString());
+    :} |
+    FLOAT:type IDENTIFIER:id ASSIGN IDENTIFIER:a OPERATION:op NFLOAT:b EOL {:
+        Variable a1 = Store.getVar(a.toString(), variables);
+        Float b1 = Float.parseFloat(b.toString());
+
+        RESULT = Store.castValue(type.toString(), Operations.execute(op.toString(), (Float) a1.getValue(), b1, type.toString()));
+        variables = Store.addVar(type.toString(), variables, id.toString(), RESULT.toString());
+    :} |
+    FLOAT:type IDENTIFIER:id ASSIGN NFLOAT:a OPERATION:op IDENTIFIER:b EOL {:
+        Float a1 = Float.parseFloat(a.toString());
+        Variable b1 = Store.getVar(b.toString(), variables);
+
+        RESULT = Store.castValue(type.toString(), Operations.execute(op.toString(), a1, (Float) b1.getValue(), type.toString()));
+        variables = Store.addVar(type.toString(), variables, id.toString(), RESULT.toString());
+    :} |
+    FLOAT:type IDENTIFIER:id ASSIGN IDENTIFIER:a OPERATION:op IDENTIFIER:b EOL {:
+        RESULT = Store.castValue(type.toString(), Operations.execute(variables, op.toString(), a.toString(), b.toString()));
+        variables = Store.addVar(type.toString(), variables, id.toString(), RESULT.toString());
+    :} |
+    IDENTIFIER:id ASSIGN NUMBER:a OPERATION:op NUMBER:b EOL {:
+        Variable aux = Store.getVar(id.toString(), variables);
+
+        Number a1 = (Number) Store.parseValue(aux.getDataType(), a.toString());
+        Number b1 = (Number) Store.parseValue(aux.getDataType(), b.toString());
+
+        RESULT = Store.castValue(aux.getDataType(), Operations.execute(op.toString(), a1, b1, aux.getDataType()));
+        variables = Store.updateValue(variables, id.toString(), RESULT.toString());
+    :} |
+    IDENTIFIER:id ASSIGN IDENTIFIER:a OPERATION:op NUMBER:b EOL {:
+        Variable aux = Store.getVar(id.toString(), variables);
+
+        Variable a1 = Store.getVar(a.toString(), variables);
+        Number b1 = (Number) Store.parseValue(aux.getDataType(), b.toString());
+
+        RESULT = Store.castValue(aux.getDataType(), Operations.execute(op.toString(), (Number) a1.getValue(), b1, aux.getDataType()));
+        variables = Store.updateValue(variables, id.toString(), RESULT.toString());
+    :} |
+    IDENTIFIER:id ASSIGN NUMBER:a OPERATION:op IDENTIFIER:b EOL {:
+        Variable aux = Store.getVar(id.toString(), variables);
+
+        Number a1 = (Number) Store.parseValue(aux.getDataType(), a.toString());
+        Variable b1 = Store.getVar(b.toString(), variables);
+
+        RESULT = Store.castValue(aux.getDataType(), Operations.execute(op.toString(), a1, (Number) b1.getValue(), aux.getDataType()));
+        variables = Store.updateValue(variables, id.toString(), RESULT.toString());
+    :} |
+    IDENTIFIER:id ASSIGN NFLOAT:a OPERATION:op NFLOAT:b EOL {:
+        Variable aux = Store.getVar(id.toString(), variables);
+
+        Number a1 = (Number) Store.parseValue(aux.getDataType(), a.toString());
+        Number b1 = (Number) Store.parseValue(aux.getDataType(), b.toString());
+
+        RESULT = Store.castValue(aux.getDataType(),Operations.execute(op.toString(), a1, b1, aux.getDataType()));
+        variables = Store.updateValue(variables, id.toString(), RESULT.toString());
+    :} |
+    IDENTIFIER:id ASSIGN IDENTIFIER:a OPERATION:op NFLOAT:b EOL {:
+        Variable aux = Store.getVar(id.toString(), variables);
+
+        Variable a1 = Store.getVar(a.toString(), variables);
+        Number b1 = (Number) Store.parseValue(aux.getDataType(), b.toString());
+
+        RESULT = Store.castValue(aux.getDataType(),Operations.execute(op.toString(), (Number) a1.getValue(), b1, aux.getDataType()));
+        variables = Store.updateValue(variables, id.toString(), RESULT.toString());
+    :} |
+    IDENTIFIER:id ASSIGN NFLOAT:a OPERATION:op IDENTIFIER:b EOL {:
+        Variable aux = Store.getVar(id.toString(), variables);
+
+        Number a1 = (Number) Store.parseValue(aux.getDataType(), a.toString());
+        Variable b1 = Store.getVar(b.toString(), variables);
+
+        RESULT = Store.castValue(aux.getDataType(),Operations.execute(op.toString(), a1, (Number) b1.getValue(), aux.getDataType()));
+        variables = Store.updateValue(variables, id.toString(), RESULT.toString());
+    :} |
+    IDENTIFIER:id ASSIGN IDENTIFIER:a OPERATION:op IDENTIFIER:b EOL {:
+        Variable aux = Store.getVar(id.toString(), variables);
+        RESULT = Store.castValue(aux.getDataType(), Operations.execute(variables, op.toString(), a.toString(), b.toString()));
+        variables = Store.updateValue(variables, id.toString(), RESULT.toString());
+    :}
 ;
 
-OPERATION ::= ADD | SUBTRACT | MULTIPLY | DIVIDE;
+OPERATION ::=
+    ADD:op {:
+        RESULT = op;
+    :} |
+    SUBTRACT:op {:
+        RESULT = op;
+    :} |
+    MULTIPLY:op {:
+        RESULT = op;
+    :} |
+    DIVIDE:op {:
+        RESULT = op;
+    :}
+;
 
 CONDITION ::=
     IDENTIFIER COMPARATOR NUMBER |
@@ -144,21 +235,36 @@ CONDITION ::=
     IDENTIFIER COMPARATOR FALSE
 ;
 
-TEXT ::=
-    IDENTIFIER |
-    TEXT IDENTIFIER
+BTEXT ::=
+    TEXT:txt {:
+        RESULT = txt.toString();
+    :} |
+    BTEXT:txt1 TEXT:txt2 {:
+        RESULT = txt1.toString()+' '+txt2.toString();
+    :} |
+    IDENTIFIER:txt {:
+        RESULT = txt.toString();
+    :} |
+    BTEXT:txt1 IDENTIFIER:txt2 {:
+        RESULT = txt1.toString()+' '+txt2.toString();
+    :} |
+    NUMBER:txt {:
+        RESULT = txt.toString();
+    :} |
+    BTEXT:txt1 NUMBER:txt2 {:
+        RESULT = txt1.toString()+' '+txt2.toString();
+    :} |
+    NFLOAT:txt {:
+        RESULT = txt.toString();
+    :} |
+    BTEXT:txt1 NFLOAT:txt2 {:
+        RESULT = txt1.toString()+' '+txt2.toString();
+    :}
 ;
 
 PARAMS ::=
     IDENTIFIER ASSIGN IDENTIFIER |
     IDENTIFIER ASSIGN NUMBER |
     IDENTIFIER ASSIGN NFLOAT |
-    IDENTIFIER ASSIGN QUOTES TEXT QUOTES
-;
-
-SUBTRACTOP ::= 
-    NUMBER:a OPERATION:op NUMBER:b EOL {:
-      /*RESULT =  ((Integer) a).intValue() - ((Integer) b).intValue();*/
-        System.out.println(a+"____"+b);
-    :}
+    IDENTIFIER ASSIGN QUOTES BTEXT QUOTES
 ;

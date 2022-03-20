@@ -63,9 +63,16 @@ public class Generator {
      private static void testLexer() {
          String text = """
              VACIO main() {
-                 ENTERO b;
-                 FLOTANTE c = 5.2;
-                 ENTERO a = 4;
+                 ENTERO a;
+                 FLOTANTE b;
+                 
+                 ENTERO c = 10;
+                 ENTERO d = 150;
+                 FLOTANTE e = 21.0 / 3.0;
+                 a = 10 + 5;
+                 
+                 SALIDA("RESPUESTA DE LA SUMA: ");
+                 SALIDA(a);
              }
          """;
          Syntax s = new Syntax(new LexerCup(new StringReader(text)));
@@ -74,7 +81,11 @@ public class Generator {
             s.parse();
          } catch (Exception e) {
              Symbol sym = s.getS();
-             System.out.println("Error de Sintaxis. Línea " + (sym.right + 1) + " columna " + (sym.left + 1) + " Texto " + sym.value);
+             if(sym != null) {
+                 System.out.println("Error de Sintaxis. Línea " + (sym.right + 1) + " columna " + (sym.left + 1) + " Texto " + sym.value);
+             }else {
+                e.printStackTrace();
+             }
          }
      }
 
