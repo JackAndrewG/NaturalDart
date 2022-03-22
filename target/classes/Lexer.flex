@@ -58,7 +58,11 @@ T=[!\"#\$%&\'\*\+\,\-\.\/:<=>\?@\[\]\\\^_\`{}]+
     return new Symbol(sym.FALSE,       (int) yychar, yyline, yytext()); } /* 4.  Tipo de Dato NO Retorno */
 
 /* ********************     BLOQUES     ******************** */
-(SALIDA)      { 
+(PRINCIPAL)      {
+    SymbolTable symTable = new SymbolTable( "MAIN", yytext(), yyline+1, yycolumn+1);
+    SymbolTable.printTable(symTable);
+    return new Symbol(sym.MAIN,      (int) yychar, yyline, yytext()); } /* 5.  Salida de datos */
+(SALIDA)      {
     SymbolTable symTable = new SymbolTable( "PRINT", yytext(), yyline+1, yycolumn+1);
     SymbolTable.printTable(symTable); 
     return new Symbol(sym.PRINT,      (int) yychar, yyline, yytext()); } /* 5.  Salida de datos */
@@ -74,10 +78,6 @@ T=[!\"#\$%&\'\*\+\,\-\.\/:<=>\?@\[\]\\\^_\`{}]+
     SymbolTable symTable = new SymbolTable( "WHILE", yytext(), yyline+1, yycolumn+1);
     SymbolTable.printTable(symTable); 
     return new Symbol(sym.WHILE,  (int) yychar, yyline, yytext()); } /* 7.  Bloque Mientras */
-(DEVOLVER)     { 
-    SymbolTable symTable = new SymbolTable( "RETURNC", yytext(), yyline+1, yycolumn+1);
-    SymbolTable.printTable(symTable); 
-    return new Symbol(sym.RETURNC,    (int) yychar, yyline, yytext()); } /* 8.  Retorno */
 
 /* ********************   OPERACIONES   ******************** */
 ("=")         { 

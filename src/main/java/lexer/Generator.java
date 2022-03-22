@@ -15,8 +15,8 @@ public class Generator {
     private static final URL SYN = Generator.class.getResource("../Syntax.cup");
 
     public static void main(String[] args) {
-//        generateFiles();
-        testLexer();
+        generateFiles();
+//        testLexer();
     }
 
     private static void generateFiles() {
@@ -62,7 +62,7 @@ public class Generator {
 
     private static void testLexer() {
          String text = """
-             VACIO main() {
+             VACIO PRINCIPAL() {
                  ENTERO a;
                  FLOTANTE b;
 
@@ -77,6 +77,8 @@ public class Generator {
                  } SINO {
                     SALIDA(d);
                  }
+
+                 SALIDA("FUERA");
              }
          """;
          Syntax s = new Syntax(new LexerCup(new StringReader(text)));
@@ -91,6 +93,6 @@ public class Generator {
                 e.printStackTrace();
              }
          }
-     }
+    }
 
 }
