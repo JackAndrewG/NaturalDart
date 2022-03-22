@@ -17,7 +17,7 @@ public class Store {
 
         if(variable.getValue() != null) variable.setClazz(variable.getValue().getClass());
         if(checkExistence(vars, identifier)) {
-            throw new RepeatedVariableException("The variable has been declared previously!");
+            throw new RepeatedVariableException("La variable <<"+identifier+">> ha sido declarada previamente");
         }else{
             vars.put(identifier, variable);
         }
@@ -37,7 +37,7 @@ public class Store {
 
             return vars;
         }else {
-            throw new NonExistentVariableException("The variable does not exist!");
+            throw new NonExistentVariableException("La variable <<"+ identifier +">> no existe.");
         }
     }
 
@@ -45,7 +45,7 @@ public class Store {
         if(checkExistence(vars, identifier)) {
             return vars.get(identifier);
         }else {
-            throw new NonExistentVariableException("The variable does not exist!");
+            throw new NonExistentVariableException("La variable <<"+ identifier +">> no existe.");
         }
     }
 

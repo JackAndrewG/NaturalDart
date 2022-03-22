@@ -8,7 +8,7 @@ public class Conditions {
         if(a.getDataType().equalsIgnoreCase(dataType)) {
             return evaluate(comparator, (Number) a.getValue(), b);
         } else {
-            throw new ArithmeticDataTypeException("Data types do not match");
+            throw new ArithmeticDataTypeException("Los tipos de dato no coinciden.");
         }
     }
 
@@ -16,7 +16,7 @@ public class Conditions {
         if(b.getDataType().equalsIgnoreCase(dataType)) {
             return evaluate(comparator, a, (Number) b.getValue());
         } else {
-            throw new ArithmeticDataTypeException("Data types do not match");
+            throw new ArithmeticDataTypeException("\"Los tipos de dato no coinciden.");
         }
     }
 
@@ -24,7 +24,7 @@ public class Conditions {
         if(a.getDataType().equalsIgnoreCase(b.getDataType())) {
             return evaluate(comparator, (Number) a.getValue(), (Number) b.getValue());
         } else {
-            throw new ArithmeticDataTypeException("Data types do not match");
+            throw new ArithmeticDataTypeException("\"Los tipos de dato no coinciden.");
         }
     }
 

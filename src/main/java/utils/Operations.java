@@ -13,10 +13,10 @@ public class Operations {
                 if(a.getValue() instanceof Float) return (Float) a.getValue() + (Float) b.getValue();
                 if(a.getValue() instanceof Integer) return (Integer) a.getValue() + (Integer) b.getValue();
             } else {
-                throw new ArithmeticDataTypeException("Illegal data type for arithmetic operations!");
+                throw new ArithmeticDataTypeException("¡Tipo de datos ilegal para operaciones aritméticas!");
             }
         }else {
-            throw new ArithmeticDataTypeException("Data types do not match");
+            throw new ArithmeticDataTypeException("Los tipos de dato no coinciden.");
         }
 
         return 0;
@@ -28,10 +28,10 @@ public class Operations {
                 if(a.getValue() instanceof Float) return (Float) a.getValue() - (Float) b.getValue();
                 if(a.getValue() instanceof Integer) return (Integer) a.getValue() - (Integer) b.getValue();
             } else {
-                throw new ArithmeticDataTypeException("Illegal data type for arithmetic operations!");
+                throw new ArithmeticDataTypeException("¡Tipo de datos ilegal para operaciones aritméticas!");
             }
         }else {
-            throw new ArithmeticDataTypeException("Data types do not match");
+            throw new ArithmeticDataTypeException("Los tipos de dato no coinciden.");
         }
 
         return 0;
@@ -43,10 +43,10 @@ public class Operations {
                 if(a.getValue() instanceof Float) return (Float) a.getValue() * (Float) b.getValue();
                 if(a.getValue() instanceof Integer) return (Integer) a.getValue() * (Integer) b.getValue();
             } else {
-                throw new ArithmeticDataTypeException("Illegal data type for arithmetic operations!");
+                throw new ArithmeticDataTypeException("¡Tipo de datos ilegal para operaciones aritméticas!");
             }
         }else {
-            throw new ArithmeticDataTypeException("Data types do not match");
+            throw new ArithmeticDataTypeException("Los tipos de dato no coinciden.");
         }
 
         return 0;
@@ -58,10 +58,10 @@ public class Operations {
                 if(a.getValue() instanceof Float) return (Float) a.getValue() / (Float) b.getValue();
                 if(a.getValue() instanceof Integer) return (Integer) a.getValue() / (Integer) b.getValue();
             } else {
-                throw new ArithmeticDataTypeException("Illegal data type for arithmetic operations!");
+                throw new ArithmeticDataTypeException("¡Tipo de datos ilegal para operaciones aritméticas!");
             }
         }else {
-            throw new ArithmeticDataTypeException("Data types do not match");
+            throw new ArithmeticDataTypeException("Los tipos de dato no coinciden.");
         }
 
         return 0;

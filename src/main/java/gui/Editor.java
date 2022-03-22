@@ -158,8 +158,12 @@ public class Editor extends JFrame implements ActionListener, Cloneable {
                     showMessageDialog(null, "Sintaxis correcta.");
                 } catch (Exception ex) {
                     Symbol sym = s.getS();
-                    addLog("¡Sintaxis incorrecta! \n" + "     Error de Sintaxis. Línea " + (sym.right + 1)
-                            + " columna " + sym.left + " Texto " + sym.value);
+                    if(sym != null) {
+                        addLog("¡Sintaxis incorrecta! \n" + "     Error de Sintaxis. Línea " + (sym.right + 1)
+                                + " columna " + sym.left + " Texto " + sym.value);
+                    }else {
+                        addLog(ex.getMessage());
+                    }
 
                 }
             }
