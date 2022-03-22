@@ -1,7 +1,5 @@
 package gui;
 
-import java_cup.runtime.Symbol;
-import lexer.LexerCup;
 //import lexer.Syntax;
 
 import javax.swing.*;
