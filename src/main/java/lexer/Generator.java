@@ -16,7 +16,7 @@ public class Generator {
 
     public static void main(String[] args) {
         generateFiles();
-        // testLexer();
+//        testLexer();
     }
 
     private static void generateFiles() {
@@ -39,6 +39,7 @@ public class Generator {
 
             deletePath(sym);
             deletePath(syn);
+            deletePath(lex);
 
             Files.move(Paths.get(System.getProperty("user.dir") + File.separatorChar + "sym.java"), sym);
             Files.move(Paths.get(System.getProperty("user.dir") + File.separatorChar + "Syntax.java"), syn);
@@ -59,37 +60,39 @@ public class Generator {
         }
     }
 
-    // private static void testLexer() {
-    // String text = """
-    // FLOTANTE sumar() {
-    // FLOTANTE a = 3.6;
-    // ENTERO b = 5 + 1;
-    // FLOTANTE c = a * b;
+    private static void testLexer() {
+         String text = """
+             VACIO PRINCIPAL() {
+                 ENTERO a;
+                 FLOTANTE b;
 
-    // SI(a >= b) {
-    // SALIDA(a);
-    // } SINO {
-    // SALIDA("Contrario");
-    // b = b - 1;
-    // }
+                 ENTERO c = 10 + 1;
+                 ENTERO d = 150;
+                 FLOTANTE e = 21.0 / 3.0;
+                 a = 10 + 5;
 
-    // SI(b == 6) {
-    // SALIDA("Iguales");
-    // a = a / 2;
-    // }
+                 SI(a < 10){
+                     SALIDA("RESPUESTA DE LA SUMA ");
+                     SALIDA(a);
+                 } SINO {
+                    SALIDA(d);
+                 }
 
-    // DEVOLVER c;
-    // }
-    // """;
-    // Syntax s = new Syntax(new LexerCup(new StringReader(text)));
+                 SALIDA("FUERA");
+             }
+         """;
+         Syntax s = new Syntax(new LexerCup(new StringReader(text)));
 
-    // try {
-    // s.parse();
-    // } catch (Exception e) {
-    // Symbol sym = s.getS();
-    // System.out.println("Error de Sintaxis. Línea " + (sym.right + 1) + " columna
-    // " + (sym.left + 1) + " Texto " + sym.value);
-    // }
-    // }
+         try {
+            s.parse();
+         } catch (Exception e) {
+             Symbol sym = s.getS();
+             if(sym != null) {
+                 System.out.println("Error de Sintaxis. Línea " + (sym.right + 1) + " columna " + (sym.left + 1) + " Texto " + sym.value);
+             }else {
+                e.printStackTrace();
+             }
+         }
+    }
 
 }
